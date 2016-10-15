@@ -101,6 +101,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseInfoDlg.h" />
     <ClInclude Include="MFCstudentInfo.h" />
     <ClInclude Include="MFCstudentInfoDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseInfoDlg.cpp" />
     <ClCompile Include="MFCstudentInfo.cpp" />
     <ClCompile Include="MFCstudentInfoDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -127,4 +129,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="MFCstudentInfo.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

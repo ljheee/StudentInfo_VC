@@ -6,6 +6,7 @@
 #include "MFCstudentInfo.h"
 #include "MFCstudentInfoDlg.h"
 #include "afxdialogex.h"
+#include "BaseInfoDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -56,12 +57,14 @@ CMFCstudentInfoDlg::CMFCstudentInfoDlg(CWnd* pParent /*=NULL*/)
 void CMFCstudentInfoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST1, m_lcstudent);
 }
 
 BEGIN_MESSAGE_MAP(CMFCstudentInfoDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON_ADD, &CMFCstudentInfoDlg::OnBnClickedButtonAdd)
 END_MESSAGE_MAP()
 
 
@@ -96,7 +99,12 @@ BOOL CMFCstudentInfoDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	// TODO:  在此添加额外的初始化代码
+	// TODO:  在此添加额外的初始化代码---初始化List Contral表头及表格。
+	CString strCol[] = { _T("学号"), _T("姓名"), _T("性别"), _T("出生日期"), _T("电话号码"), _T("联系地址") };
+	int ncol[] = { 80, 80, 40, 100, 100, 100 };
+	for (int i = 0; i<6; i++)
+		m_lcstudent.InsertColumn(i, strCol[i], 0, ncol[i], -1);
+	m_lcstudent.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -150,3 +158,37 @@ HCURSOR CMFCstudentInfoDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CMFCstudentInfoDlg::OnBnClickedButtonAdd()
+{
+	// TODO:  在此添加控件通知处理程序代码
+	CBaseInfoDlg dlg;
+	dlg.DoModal();
+
+	LVFINDINFO info;
+	int nIndex;
+
+	info.flags = LVFI_PARTIAL | LVFI_STRING;
+	info.psz = dlg.m_Edit_strNo;
+	if ((nIndex = m_lcstudent.FindItem(&info)) != -1){
+		MessageBox(_T("你输入的记录已有相同的学号！"));
+		return;
+	}
+
+	int nItemCount = m_lcstudent.GetItemCount();
+	m_lcstudent.InsertItem(LVIF_TEXT | LVIF_STATE, nItemCount, dlg.m_Edit_strNo,
+		(nItemCount % 2) == 0 ? LVIS_SELECTED : 0, LVIS_SELECTED, 0, 0);
+	m_lcstudent.SetItemText(nItemCount, 1, dlg.m_Edit_strName);
+	if (dlg.m_isMale){
+		m_lcstudent.SetItemText(nItemCount, 2, _T("女"));
+	}
+	else{
+		m_lcstudent.SetItemText(nItemCount, 2, _T("男"));
+	}
+	m_lcstudent.SetItemText(nItemCount, 3, dlg.m_tBirth.Format("%Y-%m-%d"));
+	m_lcstudent.SetItemText(nItemCount, 4, dlg.m_Edit_strTele);
+	m_lcstudent.SetItemText(nItemCount, 5, dlg.m_Edit_strAddr); 
+		
+	//dlg.DoModal();
+}

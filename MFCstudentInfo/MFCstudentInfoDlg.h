@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "afxcmn.h"
 
 
 // CMFCstudentInfoDlg ¶Ô»°¿ò
@@ -29,4 +30,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	CListCtrl m_lcstudent;
+	afx_msg void OnBnClickedButtonAdd();
 };
