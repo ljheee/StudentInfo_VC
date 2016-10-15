@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(CMFCstudentInfoDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON_ADD, &CMFCstudentInfoDlg::OnBnClickedButtonAdd)
+	ON_BN_CLICKED(IDC_BUTTON_MODIFY, &CMFCstudentInfoDlg::OnBnClickedButtonModify)
 END_MESSAGE_MAP()
 
 
@@ -159,7 +160,7 @@ HCURSOR CMFCstudentInfoDlg::OnQueryDragIcon()
 }
 
 
-
+//修改学生信息记录
 void CMFCstudentInfoDlg::OnBnClickedButtonAdd()
 {
 	// TODO:  在此添加控件通知处理程序代码
@@ -191,4 +192,16 @@ void CMFCstudentInfoDlg::OnBnClickedButtonAdd()
 	m_lcstudent.SetItemText(nItemCount, 5, dlg.m_Edit_strAddr); 
 		
 	//dlg.DoModal();
+}
+
+//修改学生信息---学号、姓名不可改
+void CMFCstudentInfoDlg::OnBnClickedButtonModify()
+{
+	// TODO:  在此添加控件通知处理程序代码
+	POSITION pos = m_lcstudent.GetFirstSelectedItemPosition();
+	int nitem = m_lcstudent.GetNextSelectedItem(pos);
+	CBaseInfoDlg dlg;
+	dlg.m_Edit_strNo = m_lcstudent.GetItemText(nitem, 0);
+	dlg.m_Edit_strName = m_lcstudent.GetItemText(nitem, 1);
+	dlg.DoModal();
 }

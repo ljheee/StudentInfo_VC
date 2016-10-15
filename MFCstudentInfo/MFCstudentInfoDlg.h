@@ -33,4 +33,5 @@ protected:
 public:
 	CListCtrl m_lcstudent;
 	afx_msg void OnBnClickedButtonAdd();
+	afx_msg void OnBnClickedButtonModify();
 };
